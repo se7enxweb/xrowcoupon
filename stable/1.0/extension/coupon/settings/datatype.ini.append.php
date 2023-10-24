@@ -1,2 +1,0 @@
-[EditSettings]
-GroupedInput[]=ezcoupon
