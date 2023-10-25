@@ -1,24 +1,28 @@
 <?php
+
 class xrowCoupon
 {
-    public $code = false;
+    public static $code = false;
 
-    function xrowCoupon( $code = false )
+    function __construct( $code = false )
 	{
-		$this->code = strtoupper( $code );
+		self::$code = strtoupper( $code );
 	}
 
     public static function fetchAttribute()
     {
         $db = eZDB::instance();
-        $result = $db->arrayQuery( "SELECT * FROM ezcontentobject_attribute e, ezcontentobject e1
+        $codeEscaped = $db->escapeString( self::$code );
+
+        $sql = "SELECT * FROM ezcontentobject_attribute e, ezcontentobject e1
                             WHERE e1.current_version = e.version
                             AND e.contentobject_id = e1.id
                             AND e.data_type_string = 'ezcoupon' AND e1.status = 1
-                            AND e.data_text like ( '".$db->escapeString( $this->code ).";%');" );
+                            AND e.data_text like ( '$codeEscaped;%' );";
+        $result = $db->arrayQuery( $sql );
         if ( isset( $result[0]['contentobject_id'] ) )
         {
-            #$obj = eZContentObject::fetch( $result[0]['contentobject_id'] );
+            //#$obj = eZContentObject::fetch( $result[0]['contentobject_id'] );
             return new eZContentObjectAttribute( $result[0] );
         }
         else
@@ -29,7 +33,7 @@ class xrowCoupon
 
     public static function isValid()
     {
-        $attribute = $this->fetchAttribute();
+        $attribute = self::fetchAttribute();
         if ( is_object( $attribute ) )
         {
             $data = $attribute->content();
@@ -43,4 +47,5 @@ class xrowCoupon
         return false;
     }
 }
+
 ?>

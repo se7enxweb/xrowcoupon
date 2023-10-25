@@ -1,2 +1,2 @@
 [ExtensionSettings]
-DesignExtensions[]=coupon
+DesignExtensions[]=xrowcoupon

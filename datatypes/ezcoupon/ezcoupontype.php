@@ -9,23 +9,22 @@ class ezCouponType extends eZDataType
 	const DEFAULT_EMTPY = 0;
 
 	const COUPON = 'ezcoupon';
+    const DATA_TYPE_STRING = self::COUPON;
 	const COUPON_DEFAULT = 'data_int1';
 
-    function ezCouponType()
+    function __construct()
     {
-        $this->eZDataType( self::COUPON, ezi18n( 'kernel/classes/datatypes', "Coupon", 'Datatype name' ),
-                           array( 'serialize_supported' => true ) );
+        parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', 'Coupon', 'Datatype name' ), array( 'serialize_supported' => true ) );
     }
-
 
     function validateDateTimeHTTPInput( $day, $month, $year, &$contentObjectAttribute )
     {
         $state = eZDateTimeValidator::validateDate( $day, $month, $year );
-        if ( $state == EZ_INPUT_VALIDATOR_STATE_INVALID )
+        if ( $state == eZInputValidator::STATE_INVALID )
         {
-            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+            $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                  'Date is not valid.' ) );
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
         }
         return $state;
     }
@@ -51,14 +50,14 @@ class ezCouponType extends eZDataType
                 if ( !( $year == '' and $month == '' and $day == '' ) or
                      $objectAttribute->validateIsRequired() )
                 {
-                    $objectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                    $objectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                          'Missing date input.' ) );
                     $return = eZInputValidator::STATE_INVALID;
                 }
             }
             else
             {
-                if ( $this->validateDateTimeHTTPInput( $day, $month, $year, $objectAttribute ) == EZ_INPUT_VALIDATOR_STATE_INVALID )
+                if ( $this->validateDateTimeHTTPInput( $day, $month, $year, $objectAttribute ) == eZInputValidator::STATE_INVALID )
                     $return = eZInputValidator::STATE_INVALID;
                 $date = new eZDate();
                 $date->setMDY( $month, $day, $year );
@@ -79,7 +78,7 @@ class ezCouponType extends eZDataType
                 if ( !( $year == '' and $month == '' and $day == '' ) or
                      $objectAttribute->validateIsRequired() )
                 {
-                    $objectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                    $objectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                          'Missing date input.' ) );
                     $return = eZInputValidator::STATE_INVALID;
                 }
@@ -94,7 +93,7 @@ class ezCouponType extends eZDataType
         }
         if ( is_object( $date ) and is_object( $date2 ) and ( $date->timeStamp() > $date2->timeStamp() or time() > $date2->timeStamp() ) )
         {
-            $objectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+            $objectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                  'Expiry date incorrect.' ) );
             $return = eZInputValidator::STATE_INVALID;
         }
@@ -107,7 +106,7 @@ class ezCouponType extends eZDataType
 
             if( $objectAttribute->validateIsRequired() && ( $data == "" or  $data <= 0 ) )
             {
-                $objectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                $objectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                  'No discount set.' ) );
                 $return = eZInputValidator::STATE_INVALID;
             }
@@ -115,15 +114,15 @@ class ezCouponType extends eZDataType
             {
                 $return = eZInputValidator::STATE_INVALID;
 
-                $objectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                $objectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                  'Invalid discount.' ) );
             }
             if ( preg_match( "#^[0-9]+(.){0,1}[0-9]{0,2}$#", $data ) and
-                 (int)$http->postVariable( $base . "_coupon_discount_type_" . $id ) == self::COUPON_DISCOUNT_TYPE_PERCENT )
+                 (int)$http->postVariable( $base . "_coupon_discount_type_" . $id ) == self::DISCOUNT_TYPE_PERCENT )
             {
                 if( !( $data > 0 and $data < 100 ) )
                 {
-                   $objectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                   $objectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                  'Give a discount value between nero and 100.' ) );
                    $return = eZInputValidator::STATE_INVALID;
                 }
@@ -133,7 +132,7 @@ class ezCouponType extends eZDataType
              $http->postVariable( $base . '_coupon_code_' . $id ) == "" )
         {
             $return = eZInputValidator::STATE_INVALID;
-            $objectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+            $objectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                           'Invalid coupon code.' ) );
         }
         return $return;
@@ -206,7 +205,7 @@ class ezCouponType extends eZDataType
     function objectAttributeContent( $objectAttribute )
     {
         $tmp = $objectAttribute->attribute( 'data_text' );
-        $tmparray = split(";",$tmp,3);
+        $tmparray = explode(";",$tmp,3);
         $date = new eZDate( );
         $stamp = $tmparray[1];
         $date->setTimeStamp( $stamp );

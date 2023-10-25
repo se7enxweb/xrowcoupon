@@ -1,3 +1,3 @@
 [EventSettings]
-ExtensionDirectories[]=coupon
+ExtensionDirectories[]=xrowcoupon
 AvailableEventTypes[]=event_ezcouponworkflow

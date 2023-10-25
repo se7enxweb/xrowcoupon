@@ -1,3 +1,3 @@
 [DataTypeSettings]
-ExtensionDirectories[]=coupon
+ExtensionDirectories[]=xrowcoupon
 AvailableDataTypes[]=ezcoupon
