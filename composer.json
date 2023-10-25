@@ -1,0 +1,31 @@
+{
+    "name": "brookinsconsulting/xrowcoupon",
+    "description": "eZ Publish Legacy extension which provides the an extension based web shop coupon feature set for store customers. Great for smart developers!",
+    "type": "ezpublish-legacy-extension",
+    "keywords": [ "eZ Publish", "eZ Publish Legacy", "eZ Publish Platform", "store", "shop", "extension", "usa", "coupon", "code", "discount", "free shipping" ],
+    "homepage": "https://github.com/brookinsconsulting/xrowcoupon",
+    "license": "GPL-2.0+",
+    "authors": [
+        {
+            "name" : "Brookins Consulting",
+            "homepage": "https://brookinsconsulting.com",
+            "email": "info@brookinsconsulting.com",
+            "role": "Developer"
+        },
+        {
+            "name" : "Xrow GmbH",
+            "homepage": "https://www.xrow.de",
+            "email": "service@xrow.de",
+            "role": "Author"
+        }
+
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.0.0",
+        "ezsystems/ezpublish-legacy-installer": "*"
+    },
+    "extra": {
+        "ezpublish-legacy-extension-name": "xrowcoupon"
+    }
+}
